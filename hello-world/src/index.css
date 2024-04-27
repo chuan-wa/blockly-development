@@ -1,0 +1,60 @@
+body {
+    margin: 0;
+    max-width: 100vw;
+}
+
+pre, code {
+    overflow: auto;
+}
+
+#pageContainer {
+    display: flex;
+    width: 100%;
+    max-width: 100vw;
+    height: 100vh;
+}
+#blocklyDivContainer{
+    flex-basis:100%;
+    height:100%;
+    width:50%;
+}
+#factoryDivContainer{
+    height:100%;
+    width:50%;
+}
+#blocklyDivButtonsCol{
+    height:5%;
+    width:100%;
+}
+#factoryDivButtonsCol{
+    height:5%;
+    width:100%;
+}
+#blocklyDiv {
+    
+    height: 100%;
+    width:100%;
+}
+
+#factoryDiv {
+    height:100%;
+    width:100%;
+}
+
+#outputPane {
+    display: flex;
+    flex-direction: column;
+    width: 400px;
+    flex: 0 0 400px;
+    overflow: auto;
+    margin: 1rem;
+}
+
+#generatedCode {
+    height: 50%;
+    background-color: rgb(247, 240, 228);
+}
+
+#output {
+    height: 50%;
+}
