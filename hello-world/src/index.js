@@ -13,7 +13,7 @@ import {toolbox} from './toolbox';
 import './index.css';
 import {FixedEdgesMetricsManager} from "@blockly/fixed-edges"
 import {otherFixedEdgesMetricsManager} from "./customClass/otherFixedEdgesMetricsManager"
-
+import { dragBetweenWorkspaces } from './my-plugins';
 
 
 // Register the blocks and generator with Blockly
@@ -69,160 +69,161 @@ document.addEventListener('mousemove', function(e) {
     currentMousePos.x = e.clientX;
     currentMousePos.y = e.clientY;
 });
+dragBetweenWorkspaces(workspace,factory,blocklyDiv,factoryDiv,document)
 
-function setupDragListener(workspace,factory){
-  let wsBlockDragger = null;
-  let ftBlockDragger = null
-  let startX=0;
-  let startY=0;
-  let wsAbsoluteAxis=null;
-  let ftAbsoluteAxis=null;
-  let wsDeviation={x:0,y:0}
-  let ftDeviation={x:0,y:0}
-  let wsSelectedBlock=null
-  let ftSelectedBlock=null
-  let wsDuplicateBlock=null
-  let ftDuplicateBlock=null
+// function setupDragListener(workspace,factory){
+//   let wsBlockDragger = null;
+//   let ftBlockDragger = null
+//   let startX=0;
+//   let startY=0;
+//   let wsAbsoluteAxis=null;
+//   let ftAbsoluteAxis=null;
+//   let wsDeviation={x:0,y:0}
+//   let ftDeviation={x:0,y:0}
+//   let wsSelectedBlock=null
+//   let ftSelectedBlock=null
+//   let wsDuplicateBlock=null
+//   let ftDuplicateBlock=null
 
-  workspace.addChangeListener(function(event){
-    if(event.type=== Blockly.Events.BLOCK_DRAG && event.isStart && !(ftBlockDragger)){
-      //find the block
-      wsSelectedBlock = workspace.getBlockById(event.blockId)
-      //console.log(selectedBlock)
-      // get mouse axis
-      const mouseAxis = currentMousePos;
-      console.log("Mouse Axis:", mouseAxis);
-      // get abs block axis
-      wsAbsoluteAxis=ablXY(workspace,blocklyDiv,wsSelectedBlock)
-      console.log(wsAbsoluteAxis)
+//   workspace.addChangeListener(function(event){
+//     if(event.type=== Blockly.Events.BLOCK_DRAG && event.isStart && !(ftBlockDragger)){
+//       //find the block
+//       wsSelectedBlock = workspace.getBlockById(event.blockId)
+//       //console.log(selectedBlock)
+//       // get mouse axis
+//       const mouseAxis = currentMousePos;
+//       console.log("Mouse Axis:", mouseAxis);
+//       // get abs block axis
+//       wsAbsoluteAxis=ablXY(workspace,blocklyDiv,wsSelectedBlock)
+//       console.log(wsAbsoluteAxis)
       
-      //const relativeAxis=relXY(absoluteAxis,factory)
-      // wsDeviation = mouse axis - abs
-      wsDeviation={x:mouseAxis.x-wsAbsoluteAxis.x,y:mouseAxis.y-wsAbsoluteAxis.y}
-      console.log("wsDeviation",wsDeviation)
-      //find the block
-      //save the block
-      const jsonBlock = Blockly.serialization.blocks.save(wsSelectedBlock);
-      //console.log(jsonBlock)
-      //load the block in factory
-      wsDuplicateBlock = Blockly.serialization.blocks.append(jsonBlock,factory)
+//       //const relativeAxis=relXY(absoluteAxis,factory)
+//       // wsDeviation = mouse axis - abs
+//       wsDeviation={x:mouseAxis.x-wsAbsoluteAxis.x,y:mouseAxis.y-wsAbsoluteAxis.y}
+//       console.log("wsDeviation",wsDeviation)
+//       //find the block
+//       //save the block
+//       const jsonBlock = Blockly.serialization.blocks.save(wsSelectedBlock);
+//       //console.log(jsonBlock)
+//       //load the block in factory
+//       wsDuplicateBlock = Blockly.serialization.blocks.append(jsonBlock,factory)
       
 
-      //
+//       //
       
-      //console.log(wsDuplicateBlock)
-      //simulate the dragging
-      wsBlockDragger = new Blockly.BlockDragger(wsDuplicateBlock,factory)
+//       //console.log(wsDuplicateBlock)
+//       //simulate the dragging
+//       wsBlockDragger = new Blockly.BlockDragger(wsDuplicateBlock,factory)
 
-      //console.log(relativeAxis)
-      // startX=0
-      // startY=0
-      wsBlockDragger.startDrag({
-        x:mouseAxis.x-wsDeviation.x,
-        // y:(absoluteAxis.y/factory.scale)-factory.getMetricsManager().getAbsoluteMetrics().top-factory.scrollY,
-        y:mouseAxis.y-wsDeviation.y,
-      },false)
+//       //console.log(relativeAxis)
+//       // startX=0
+//       // startY=0
+//       wsBlockDragger.startDrag({
+//         x:mouseAxis.x-wsDeviation.x,
+//         // y:(absoluteAxis.y/factory.scale)-factory.getMetricsManager().getAbsoluteMetrics().top-factory.scrollY,
+//         y:mouseAxis.y-wsDeviation.y,
+//       },false)
 
-    }
-  });
-  factory.addChangeListener(function(event){
-    if(event.type=== Blockly.Events.BLOCK_DRAG && event.isStart &&!(wsBlockDragger)){
-      ftSelectedBlock = factory.getBlockById(event.blockId)
-      const mouseAxis = currentMousePos;
-      //console.log("Mouse Axis:", mouseAxis);
-      ftAbsoluteAxis=ablXY(factory,factoryDiv,ftSelectedBlock)
-      //console.log(absoluteAxis)
-      ftDeviation={x:mouseAxis.x-ftAbsoluteAxis.x,y:mouseAxis.y-ftAbsoluteAxis.y}
-      console.log("ftDeviation",ftDeviation)
-      //find the block
-      //save the block
-      const jsonBlock = Blockly.serialization.blocks.save(ftSelectedBlock);
-      //console.log(jsonBlock)
-      //load the block in factory
-      ftDuplicateBlock = Blockly.serialization.blocks.append(jsonBlock,workspace)
+//     }
+//   });
+//   factory.addChangeListener(function(event){
+//     if(event.type=== Blockly.Events.BLOCK_DRAG && event.isStart &&!(wsBlockDragger)){
+//       ftSelectedBlock = factory.getBlockById(event.blockId)
+//       const mouseAxis = currentMousePos;
+//       //console.log("Mouse Axis:", mouseAxis);
+//       ftAbsoluteAxis=ablXY(factory,factoryDiv,ftSelectedBlock)
+//       //console.log(absoluteAxis)
+//       ftDeviation={x:mouseAxis.x-ftAbsoluteAxis.x,y:mouseAxis.y-ftAbsoluteAxis.y}
+//       console.log("ftDeviation",ftDeviation)
+//       //find the block
+//       //save the block
+//       const jsonBlock = Blockly.serialization.blocks.save(ftSelectedBlock);
+//       //console.log(jsonBlock)
+//       //load the block in factory
+//       ftDuplicateBlock = Blockly.serialization.blocks.append(jsonBlock,workspace)
 
-      ftBlockDragger = new Blockly.BlockDragger(ftDuplicateBlock,workspace)
-      // ftBlockDragger.startDrag({
-      //   x:0,
-      //   // y:(absoluteAxis.y/factory.scale)-factory.getMetricsManager().getAbsoluteMetrics().top-factory.scrollY,
-      //   y:0,
-      // },false)
-    }
-  })
-  const screen = document.body
-  const ftRect=factoryDiv.getBoundingClientRect()
-  const wsRect=blocklyDiv.getBoundingClientRect()
-  console.log(ftRect.top,ftRect.left)
-  console.log("wsRect",wsRect.left)
+//       ftBlockDragger = new Blockly.BlockDragger(ftDuplicateBlock,workspace)
+//       // ftBlockDragger.startDrag({
+//       //   x:0,
+//       //   // y:(absoluteAxis.y/factory.scale)-factory.getMetricsManager().getAbsoluteMetrics().top-factory.scrollY,
+//       //   y:0,
+//       // },false)
+//     }
+//   })
+//   const screen = document.body
+//   const ftRect=factoryDiv.getBoundingClientRect()
+//   const wsRect=blocklyDiv.getBoundingClientRect()
+//   console.log(ftRect.top,ftRect.left)
+//   console.log("wsRect",wsRect.left)
 
 
  
 
 
-  var mousemoveHandler = function(e){
-    //console.log('Mouse_move',e.x)
-    if(wsBlockDragger){
-      const devX=ftRect.left+wsDeviation.x+4
-      const devY=wsDeviation.y
+//   var mousemoveHandler = function(e){
+//     //console.log('Mouse_move',e.x)
+//     if(wsBlockDragger){
+//       const devX=ftRect.left+wsDeviation.x+4
+//       const devY=wsDeviation.y
     
-      console.log(devX,devY)
+//       console.log(devX,devY)
       
-      //console.log(e.x,e.y)
+//       //console.log(e.x,e.y)
 
-      wsBlockDragger.drag(e,
-      {x:e.x-devX,y:e.y-devY})
-    }else if(ftBlockDragger){
-      const devX=wsRect.left+ftDeviation.x
-      const devY=ftDeviation.y
+//       wsBlockDragger.drag(e,
+//       {x:e.x-devX,y:e.y-devY})
+//     }else if(ftBlockDragger){
+//       const devX=wsRect.left+ftDeviation.x
+//       const devY=ftDeviation.y
 
-      const axis={x:e.x-devX,y:e.y-devY}
-      const relAxis=relXY(axis,workspace)
-      ftBlockDragger.drag(e,
-      {x:relAxis.x,y:relAxis.y})
-      console.log("x",e.x-devX)
-    }
-  }
-  Blockly.utils.browserEvents.bind(screen,'mousemove',null,mousemoveHandler)
+//       const axis={x:e.x-devX,y:e.y-devY}
+//       const relAxis=relXY(axis,workspace)
+//       ftBlockDragger.drag(e,
+//       {x:relAxis.x,y:relAxis.y})
+//       console.log("x",e.x-devX)
+//     }
+//   }
+//   Blockly.utils.browserEvents.bind(screen,'mousemove',null,mousemoveHandler)
 
-  var mouseupHandler = function(e){
-    if(wsBlockDragger){
-      const devX=ftRect.left+wsDeviation.x
-      const devY=wsDeviation.y
+//   var mouseupHandler = function(e){
+//     if(wsBlockDragger){
+//       const devX=ftRect.left+wsDeviation.x
+//       const devY=wsDeviation.y
       
-      wsBlockDragger.endDrag(e,
-        {x:e.x-devX,y:e.y-devY}
-      )
-      //wsBlockDragger.fireDragEndEvent_()
-      //wsBlockDragger.updateBlockAfterMove_()
-      wsBlockDragger=null
-      if(e.x-devX>0){
-        wsSelectedBlock.dispose(false)
-      }else{
-        wsDuplicateBlock.dispose(false)
+//       wsBlockDragger.endDrag(e,
+//         {x:e.x-devX,y:e.y-devY}
+//       )
+//       //wsBlockDragger.fireDragEndEvent_()
+//       //wsBlockDragger.updateBlockAfterMove_()
+//       wsBlockDragger=null
+//       if(e.x-devX>0){
+//         wsSelectedBlock.dispose(false)
+//       }else{
+//         wsDuplicateBlock.dispose(false)
   
-      }
-    }else if(ftBlockDragger){
-      const devX=wsRect.left+ftDeviation.x
-      const devY=ftDeviation.y
-      const axis={x:e.x-devX,y:e.y-devY}
-      const relAxis=relXY(axis,workspace)
-      ftBlockDragger.drag(e,
-      {x:relAxis.x,y:relAxis.y})
-      console.log("x",e.x-devX)
+//       }
+//     }else if(ftBlockDragger){
+//       const devX=wsRect.left+ftDeviation.x
+//       const devY=ftDeviation.y
+//       const axis={x:e.x-devX,y:e.y-devY}
+//       const relAxis=relXY(axis,workspace)
+//       ftBlockDragger.drag(e,
+//       {x:relAxis.x,y:relAxis.y})
+//       console.log("x",e.x-devX)
 
-      ftBlockDragger=null
-      if(relAxis.x-devX>0){
-        ftDuplicateBlock.dispose(false)
-      }else{
-        ftSelectedBlock.dispose(false)
-      }
-    }
+//       ftBlockDragger=null
+//       if(relAxis.x-devX>0){
+//         ftDuplicateBlock.dispose(false)
+//       }else{
+//         ftSelectedBlock.dispose(false)
+//       }
+//     }
 
     
-  }
-  Blockly.utils.browserEvents.bind(screen,'mouseup',null,mouseupHandler)
-}
-setupDragListener(workspace,factory)
+//   }
+//   Blockly.utils.browserEvents.bind(screen,'mouseup',null,mouseupHandler)
+// }
+// setupDragListener(workspace,factory)
 
 
 // const workspace = Blockly.inject(blocklyDiv, {toolbox});
