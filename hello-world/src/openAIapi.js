@@ -3,7 +3,8 @@ const OpenAI =require("openai");
 const api_key=process.env.OPENAI_API_KEY;
 const openai=new OpenAI.OpenAI({
     baseURL:'https://api.openai-proxy.org/v1',
-    apiKey:process.env.OPENAI_API_KEY,
+    apiKey:'sk-t59htgJhmpCPeq1vSrP3Py7Toli5ih0A5Wg2uHSGrE6AdbzM',
+    dangerouslyAllowBrowser: true 
 })
 //const openai = new OpenAI();
 

@@ -25,7 +25,15 @@ export class WorkspaceCrossDragManager{
         this.fydiv = fydiv;
         this.dc = dc;
         this.isDragging=false;
+        this.mousemoveHandler=null
+        this.mouseupHandler=null
         
+    }
+    stop(){
+        this.ws.removeChangeListener(wsstart)
+        this.fy.removeChangeListener(fystart)
+        Blockly.utils.browserEvents.unbind(screen, 'mousemove', null, this.mousemoveHandler);
+        Blockly.utils.browserEvents.unbind(screen, 'mouseup', null, this.mouseupHandler);
     }
     dragBetweenWorkspaces(ws,fy,wsdiv,fydiv,dc){
         ws=this.ws
@@ -59,6 +67,10 @@ export class WorkspaceCrossDragManager{
             if(block){
                 block.setAttribute('x','-50000')
                 block.setAttribute('y','-50000')
+                const comment = block.querySelector('comment');
+                if (comment) {
+                    comment.setAttribute('pinned', 'false');
+                }
             }
             return xmlData.querySelector('block')
             return new XMLSerializer().serializeToString(xmlData)
@@ -87,8 +99,7 @@ export class WorkspaceCrossDragManager{
             const relAxis=get_REL_XY(axis,other_workspace)
             return [axis,relAxis]
         }
-    
-        ws.addChangeListener(function(event){
+        function wsstart(event){
             if(event.type===Blockly.Events.BLOCK_DRAG && event.isStart && !(fyBlockDragger)){
                 wsSelectedBlock = ws.getBlockById(event.blockId)
                 wsAblAxis = get_ABL_XY(ws,wsdiv,wsSelectedBlock)
@@ -97,7 +108,7 @@ export class WorkspaceCrossDragManager{
                 // const jsonBlock = Blockly.serialization.blocks.save(wsSelectedBlock)
                 // wsDuplicateBlock = Blockly.serialization.blocks.append(jsonBlock,fy)
     
-                const xmlBlock=Blockly.Xml.blockToDomWithXY(wsSelectedBlock,false)
+                let xmlBlock=Blockly.Xml.blockToDomWithXY(wsSelectedBlock,false)
                 const hiddenXmlBlock=hideXmlBlock(xmlBlock)
                 console.log("xml:",hiddenXmlBlock)
                 wsDuplicateBlock=Blockly.Xml.domToBlock(hiddenXmlBlock,fy)
@@ -112,9 +123,10 @@ export class WorkspaceCrossDragManager{
                 },false)
     
             }
-        });
-    
-        fy.addChangeListener(function(event){
+        }
+        
+        ws.addChangeListener(wsstart);
+        function fystart(event){
             if(event.type===Blockly.Events.BLOCK_DRAG&&event.isStart&&!(wsBlockDragger)){
                 fySelectedBlock = fy.getBlockById(event.blockId)
                 fyAblAxis = get_ABL_XY(fy,fydiv,fySelectedBlock)
@@ -137,14 +149,15 @@ export class WorkspaceCrossDragManager{
                     y:xy.y
                 },false)
             }
-        })
+        }
+        fy.addChangeListener(fystart)
     
         const screen=document.body
     
     
     
     
-        var mousemoveHandler = function(e){
+        this.mousemoveHandler = function(e){
             if(wsBlockDragger){
                 const relAxis=get_Duplicate_Block_REL_Axis(e,fy,fydiv,wsDeviation)[1]
                 wsBlockDragger.drag(e,
@@ -153,12 +166,14 @@ export class WorkspaceCrossDragManager{
                 const relAxis=get_Duplicate_Block_REL_Axis(e,ws,wsdiv,fyDeviation)[1]
                 fyBlockDragger.drag(e,
                 {x:relAxis.x,y:relAxis.y})
+            }else{
+                return
             }
         }
     
-        Blockly.utils.browserEvents.bind(screen,'mousemove',null,mousemoveHandler)
+        Blockly.utils.browserEvents.bind(screen,'mousemove',null,this.mousemoveHandler)
     
-        var mouseupHandler = function(e){
+        this.mouseupHandler = function(e){
             if(wsBlockDragger){
                 const relAxis=get_Duplicate_Block_REL_Axis(e,fy,fydiv,wsDeviation)[1]
                 const ablAxis=get_Duplicate_Block_REL_Axis(e,fy,fydiv,wsDeviation)[0]
@@ -198,10 +213,12 @@ export class WorkspaceCrossDragManager{
                 fyDuplicateBlock=null
                 fySelectedBlock=null
                 
+            }else{
+                return
             }
             
         }
-        Blockly.utils.browserEvents.bind(screen,"mouseup",null,mouseupHandler)
+        Blockly.utils.browserEvents.bind(screen,"mouseup",null,this.mouseupHandler)
     }
     
 }

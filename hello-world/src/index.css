@@ -1,78 +1,266 @@
 body {
-    margin: 0;
-    max-width: 100vw;
-  }
-  
-  pre, code {
-    overflow: auto;
-  }
-  
-  #pageContainer {
-    display: flex;
-    width: 100%;
-    max-width: 100vw;
-    height: 100vh;
-    flex-direction: row;
-  }
-  
-  #blocklyDivContainer, #factoryDivContainer {
-    flex-basis: 50%;
-    height: 100%;
-    width: 50%;
-    display: flex;
-    flex-direction: column;
-  }
-  
-  #blocklyDiv, #factoryDiv {
-    flex: 1;
-    width: 100%;
-  }
-  
-  #blocklyDivButtonsCol, #factoryDivButtonsCol {
-    height: 5%;
-    width: 100%;
-  }
-  
-    #factoryDivExtraContainer {
-    height: 20%;
-    width: 100%;
-    background-color: #f0f0f0; /* Example background color */
-  }
-  #blocklyDivExtraContainer {
-    height: 30%; /* Adjust the height as needed */
-    width: 100%;
-    background-color: #f0f0f0; /* Example background color */
-    overflow-y: auto; /* Enable vertical scrolling */
-    overflow-x: hidden; /* Disable horizontal scrolling */
-    padding: 10px; /* Add padding around the text */
-    font-family: monospace; /* Code font */
-    font-size: 14px; /* Adjust text size */
-    box-sizing: border-box; /* Include padding in width and height calculations */
-  }
-  
-  #blocklyDivExtraContainer pre {
-    margin: 0; /* Remove default margin */
-    white-space: pre-wrap; /* Wrap text while preserving whitespace */
-    line-height: 1.5; /* Improve readability with line spacing */
-    padding-left: 10px; /* Add padding to keep text away from the left edge */
-  }
-  
-  .language-button {
-    padding: 10px 20px;
-    font-size: 14px;
-    cursor: pointer;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    transition: background-color 0.3s;
-  }
+  margin: 0;
+  max-width: 100vw;
+}
 
-  .language-button:hover {
-    background-color: #45a049;
-  }
+pre, code {
+  overflow: auto;
+}
 
-  .language-button.active {
-    background-color: #006400; /* Darker green for active state */
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2); /* Add a shadow for emphasis */
-  }
+#pageContainer {
+  display: flex;
+  width: 100%;
+  max-width: 100vw;
+  height: 100vh;
+  flex-direction: row;
+}
+
+#blocklyDivContainer{
+  height: 100%;
+  width: 70%;
+  display: flex;
+  flex-direction: column;
+}
+#factoryDivContainer{
+  height: 100%;
+  width: 30%;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+} 
+
+#blocklyDiv, #factoryDiv {
+  flex: 1;
+  width: 100%;
+}
+#factoryDiv{
+  position: relative;
+  flex-grow: 1;
+}
+
+#blocklyDivButtonsCol, #factoryDivButtonsCol {
+  height: 7%;
+  width: 100%;
+}
+
+  #factoryDivExtraContainer {
+  height: 30%;
+  width: 100%;
+  background-color: #ccc;
+  overflow-y:auto;
+  padding:10px;
+  border: 1px solid #171111;
+  font-size: 20px;
+  white-space: pre-wrap
+}
+#blocklyDivExtraContainer {
+  height: 30%;
+  width: 100%;
+  background-color: #f0f0f0; 
+  overflow-y: auto;
+  overflow-x: hidden; 
+  padding: 10px;
+  font-family: monospace; 
+  font-size: 20px;
+  box-sizing: border-box; 
+}
+
+#blocklyDivExtraContainer pre {
+  margin: 0; /* Remove default margin */
+  white-space: pre-wrap; /* Wrap text while preserving whitespace */
+  line-height: 1.5; /* Improve readability with line spacing */
+  padding-left: 10px; /* Add padding to keep text away from the left edge */
+}
+
+.language-button {
+  padding: 10px 20px;
+  font-size: 14px;
+  cursor: pointer;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  transition: background-color 0.3s;
+}
+
+.language-button:hover {
+  background-color: #45a049;
+}
+
+.language-button.active {
+  background-color: #006400; /* Darker green for active state */
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2); /* Add a shadow for emphasis */
+}
+
+.run-button,.dropdown,.send-button {
+  padding: 10px 20px;
+  font-size: 14px;
+  cursor: pointer;
+  background-color: #f39c12; /* Orange color */
+  color: white;
+  border: none;
+  border-radius: 4px;
+  transition: background-color 0.3s;
+  margin-left: 10px; /* Add some space to the left */
+}
+
+.run-button:hover {
+  background-color: #e67e22; /* Darker orange on hover */
+}
+
+.dropdown {
+  flex: 1; /* Allows the dropdown to expand flexibly */
+}
+
+.exercise-input {
+  flex: 2; /* Allows the input bar more space to expand */
+  height: 45px; /* Height to accommodate two lines of text */
+}
+
+.ai-button {
+  padding: 10px 20px;
+  font-size: 14px;
+  cursor: pointer;
+  background-color: #3498db; /* Blue color */
+  color: white;
+  border: none;
+  border-radius: 4px;
+  transition: background-color 0.3s;
+}
+
+.ai-button:hover {
+  background-color: #2980b9; /* Darker blue on hover */
+}
+#factoryDivButtonsCol {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  background-color: #f9f9f9;
+  padding: 10px;
+}
+
+.dropdown, .exercise-input, .send-button {
+  flex-grow: 1; /* Allows elements to expand to fill available space */
+  margin-right: 10px; /* Adds spacing between elements */
+}
+
+.exercise-input {
+  flex-grow: 10; /* Gives the input bar more room to expand */
+  height: 45px;
+  font-size: 15px; /* Increase height to accommodate two or three lines of text */
+}
+
+.send-button {
+  flex-grow: 0; /* Prevents the button from expanding too much */
+  white-space: nowrap; /* Keeps the button text on one line */
+}
+
+.top-row {
+  display: flex;
+  width: 100%;
+  align-items: center; /* Align vertically in the center */
+  margin-bottom: 10px; /* Space below the top row */
+}
+.bottom-row {
+  display: flex;
+  align-items: center; /* Aligns scroll button and label vertically */
+}
+
+.scroll-button {
+  margin-top: -8px;
+  flex-grow: 1;
+  margin-right: 10px; /* Adds space between the scroll bar and label */
+}
+
+#scrollLabel {
+  margin-top: -8px;
+  width: 50%;
+  white-space: nowrap; /* Prevents label text from wrapping */
+}
+.floating-window {
+  width: 400px; 
+  height: 350px; 
+  background-color: white;
+  border: 1px solid #ccc;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  resize: both;
+  overflow: auto;
+  position: fixed; /* Ensure the window stays fixed in position */
+  bottom: 10px;    /* Position 10px from the bottom */
+  right: 10px;     /* Position 10px from the right */
+}
+
+.window-header {
+  padding: 10px;
+  background-color: #3498db;
+  color: white;
+  cursor: move;
+}
+
+.window-content {
+  padding: 10px;
+}
+
+.close-button {
+  float: right;
+  font-size: 18px;
+  cursor: pointer;
+}
+.button-loading {
+  pointer-events: none;
+  opacity: 0.7;
+  position: relative;
+}
+
+button.send-button.button-loading::after {
+  content: '';
+  position: absolute;
+  top: 20%;
+  left: 33%;
+  transform: translate(-50%, -50%);
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid #fff;
+  border-top-color: transparent;
+  animation: spin 1s linear infinite;
+}
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+
+#assist-workspace{
+  height: 0%;
+  width: 0%;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.7); /* Light white background */
+  display: flex;
+  align-items: center; /* Center spinner vertically */
+  justify-content: center; /* Center spinner horizontally */
+  z-index: 10; /* High enough to be on top of everything else */
+  display: none; /* Hidden by default */
+}
+
+.loader {
+  border: 5px solid #f3f3f3;
+  border-top: 5px solid #3498db; 
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}

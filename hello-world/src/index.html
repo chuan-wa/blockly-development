@@ -14,16 +14,31 @@
           <button class="language-button" data-language="lua">Lua</button>
           <button class="language-button" data-language="dart">Dart</button>
           <button class="language-button" data-language="php">PHP</button>
+          <button id="runButton" class="run-button">Run Code</button>
         </div>
-        <!-- New container below blocklyDivContainer -->
         <div id="blocklyDivExtraContainer"></div>
       </div>
       <div id="factoryDivContainer">
         <div id="factoryDiv"></div>
-        <div id="factoryDivButtonsCol"></div>
-        <!-- New container below factoryDivContainer -->
+        <div id="factoryDivButtonsCol">
+          <div class="top-row">
+            <select id="dropdownOptions" class="dropdown">
+              <option value="generate">Generate</option>
+              <option value="debug">Debug</option>
+              <option value="explain">Explain</option>
+              <option value="makeExercises">Make Exercises</option>
+            </select>
+            <input type="text" id="exerciseInput" placeholder="Enter your additional request..." class="exercise-input">
+            <button id="sendButton" class="send-button">Send</button>
+          </div>
+          <div class="bottom-row">
+            <input type="range" id="scrollButton" class="scroll-button" min="1" max="2" value="1">
+            <label id="scrollLabel" for="scrollButton">Partly</label>
+          </div>
+        </div>
         <div id="factoryDivExtraContainer"></div>
       </div>
     </div>
+    <div id="assist-workspace"></div>
   </body>
  </html>
